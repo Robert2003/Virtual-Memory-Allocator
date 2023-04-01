@@ -2,13 +2,25 @@
 #include <inttypes.h>
 #include <stddef.h>
 
-/* TODO : add your implementation for doubly-linked list */
-typedef struct { } list_t;
+typedef struct node_t node_t;
+struct node_t
+{
+    void *data;
+    node_t *prev, *next;
+};
+
+typedef struct list_t list_t;
+struct list_t
+{
+    node_t *head, *tail;
+    unsigned int data_size;
+    unsigned int size;
+};
 
 typedef struct {
 	uint64_t start_address;
 	size_t size;
-	void *miniblock_list;
+	list_t *miniblock_list;
 } block_t;
 
 typedef struct {
