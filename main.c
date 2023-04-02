@@ -6,21 +6,16 @@
 
 int main(void)
 {
-	arena_t *arena = alloc_arena(12432);
-	alloc_block(arena, 100, 200);
-	alloc_block(arena, 400, 200);
-	alloc_block(arena, 0, 100);
-	alloc_block(arena, 600, 100);
-	//alloc_block(arena, 300, 100);
-	//alloc_block(arena, 300, 100);
-	/*alloc_block(arena, 500, 500);
-	alloc_block(arena, 2000, 10000);
-	alloc_block(arena, 300, 1000);
-	alloc_block(arena, 12500, 1000);
-	alloc_block(arena, 50, 1000);*/
-	//merge_lists_at_index(arena, 0, 1);
-	//merge_lists_at_index(arena, 0, 1);
+	arena_t *arena = alloc_arena(65536);
+	alloc_block(arena, 4096, 10);
+	alloc_block(arena, 12288, 10);
+	alloc_block(arena, 12308, 10);
 	pmap(arena);
+	alloc_block(arena, 12298, 10);
+	pmap(arena);
+	//free_block(arena, 12308);
+	pmap(arena);
+	read(arena, 12288, 25);
 	dealloc_arena(arena);
 	return 0;
 }

@@ -19,15 +19,18 @@ dll_create(unsigned int data_size)
 }
 
 node_t*
-dll_get_nth_node(list_t *list, unsigned int n)
+dll_get_nth_node(list_t *list, int n)
 {
     node_t *p = list->head;
 
     if (list->size == 0)
         return NULL;
 
+    if (n < 0)
+        n = 0;
+
     if (n > list->size)
-        n = list->size;
+        n = list->size - 1;
 
     for (int i = 0; i < n; i++)
         p = p->next;
@@ -36,16 +39,12 @@ dll_get_nth_node(list_t *list, unsigned int n)
 }
 
 void
-dll_add_nth_node(list_t *list, unsigned int n, const void *new_data)
+dll_add_nth_node(list_t *list, unsigned int n, void *new_data)
 {
     node_t *current_node, *new_node;
 
     if (!list || !new_data) {
         return;
-    }
-
-	if (n > list->size) {
-        n = list->size;
     }
     
     new_node = malloc(sizeof(node_t));
