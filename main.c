@@ -6,21 +6,21 @@
 
 int main(void)
 {
-	list_t *list = dll_create(sizeof(int));
-	int v[] = {0,1,2,3,4,5,6,7,9,9};
-	dll_add_nth_node(list, 0, &v[0]);
-	dll_add_nth_node(list, 1, &v[1]);
-	dll_add_nth_node(list, 2, &v[2]);
-	dll_add_nth_node(list, 1, &v[3]);
-	dll_add_nth_node(list, 0, &v[4]);
-	dll_remove_nth_node(list, 0);
-	dll_remove_nth_node(list, 0);
-	dll_remove_nth_node(list, 0);
-	dll_remove_nth_node(list, 0);
-	dll_remove_nth_node(list, 0);
-	dll_remove_nth_node(list, 0);
-	dll_print_int_list(list);
 	arena_t *arena = alloc_arena(12432);
+	alloc_block(arena, 100, 200);
+	alloc_block(arena, 400, 200);
+	alloc_block(arena, 0, 100);
+	alloc_block(arena, 600, 100);
+	//alloc_block(arena, 300, 100);
+	//alloc_block(arena, 300, 100);
+	/*alloc_block(arena, 500, 500);
+	alloc_block(arena, 2000, 10000);
+	alloc_block(arena, 300, 1000);
+	alloc_block(arena, 12500, 1000);
+	alloc_block(arena, 50, 1000);*/
+	//merge_lists_at_index(arena, 0, 1);
+	//merge_lists_at_index(arena, 0, 1);
+	pmap(arena);
 	dealloc_arena(arena);
 	return 0;
 }

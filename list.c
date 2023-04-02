@@ -11,6 +11,7 @@ dll_create(unsigned int data_size)
 	list_t *list = malloc(sizeof(list_t));
 
     list->head = NULL;
+    list->tail = NULL;
     list->data_size = data_size;
     list->size = 0;
 
@@ -24,6 +25,9 @@ dll_get_nth_node(list_t *list, unsigned int n)
 
     if (list->size == 0)
         return NULL;
+
+    if (n > list->size)
+        n = list->size;
 
     for (int i = 0; i < n; i++)
         p = p->next;
@@ -116,6 +120,8 @@ dll_remove_nth_node(list_t *list, unsigned int n)
     }
 
     list->size--;
+    if(list->size == 0)
+        list->head = NULL;
     node_to_remove->prev = NULL;
     node_to_remove->next = NULL;
 
@@ -138,7 +144,7 @@ dll_free(list_t *list)
     }
 
     current_node = list->head;
-    while (current_node != NULL) {
+    while (current_node) {
         next_node = current_node->next;
         free(current_node->data);
         free(current_node);

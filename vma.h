@@ -32,7 +32,7 @@ typedef struct {
 
 typedef struct {
 	uint64_t arena_size;
-	list_t *alloc_list;
+	list_t *block_list;
 } arena_t;
 
 arena_t *alloc_arena(const uint64_t size);
@@ -45,3 +45,5 @@ void read(arena_t *arena, uint64_t address, uint64_t size);
 void write(arena_t *arena, const uint64_t address,  const uint64_t size, int8_t *data);
 void pmap(const arena_t *arena);
 void mprotect(arena_t *arena, uint64_t address, int8_t *permission);
+
+void merge_lists_at_index(arena_t *arena, int dest, int src);
