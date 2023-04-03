@@ -39,7 +39,7 @@ dll_get_nth_node(list_t *list, int n)
 }
 
 void
-dll_add_nth_node(list_t *list, unsigned int n, void *new_data, void (*f)(void *))
+dll_add_nth_node(list_t *list, unsigned int n, void *new_data)
 {
     node_t *current_node, *new_node;
 
@@ -51,7 +51,8 @@ dll_add_nth_node(list_t *list, unsigned int n, void *new_data, void (*f)(void *)
     new_node->data = malloc(list->data_size);
     memcpy(new_node->data, new_data, list->data_size);
 
-    f(new_data);
+    free(new_data);
+    new_data = NULL;
 
     current_node = dll_get_nth_node(list, n);
 
@@ -90,8 +91,8 @@ dll_remove_nth_node(list_t *list, unsigned int n, void (*f)(void *))
 	if (!list->head) {
         return NULL;
     }
-    if (n > list->size) {
-        n = list->size;
+    if (n >= list->size) {
+        n = list->size - 1;
     }
 
     node_to_remove = dll_get_nth_node(list, n);
@@ -126,7 +127,8 @@ dll_remove_nth_node(list_t *list, unsigned int n, void (*f)(void *))
     node_to_remove->prev = NULL;
     node_to_remove->next = NULL;
 
-    f(node_to_remove);
+    if(f)
+        f(node_to_remove);
     //return node_to_remove;
 }
 
