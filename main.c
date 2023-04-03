@@ -15,7 +15,8 @@ int main(void)
 	pmap(arena);
 	//free_block(arena, 12308);
 	pmap(arena);
-	read(arena, 12288, 25);
+	read(arena, 12289, 25);
+	alloc_block(arena, 0, 1500);
 	dealloc_arena(arena);
 	return 0;
 }

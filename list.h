@@ -7,10 +7,10 @@ node_t*
 dll_get_nth_node(list_t* list, int n);
 
 void
-dll_add_nth_node(list_t *list, unsigned int n, void *new_data);
+dll_add_nth_node(list_t *list, unsigned int n, void *new_data, void (*f)(void *));
 
 node_t*
-dll_remove_nth_node(list_t *list, unsigned int n);
+dll_remove_nth_node(list_t *list, unsigned int n, void (*f)(void *));
 
 void
 dll_free(list_t *list);
