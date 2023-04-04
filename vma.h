@@ -5,16 +5,16 @@
 typedef struct node_t node_t;
 struct node_t
 {
-    void *data;
-    node_t *prev, *next;
+	void *data;
+	node_t *prev, *next;
 };
 
 typedef struct list_t list_t;
 struct list_t
 {
-    node_t *head, *tail;
-    unsigned int data_size;
-    unsigned int size;
+	node_t *head, *tail;
+	unsigned int data_size;
+	unsigned int size;
 };
 
 typedef struct {
