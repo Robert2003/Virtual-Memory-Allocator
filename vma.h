@@ -3,18 +3,16 @@
 #include <stddef.h>
 
 typedef struct node_t node_t;
-struct node_t
-{
+struct node_t {
 	void *data;
 	node_t *prev, *next;
 };
 
 typedef struct list_t list_t;
-struct list_t
-{
+struct list_t {
 	node_t *head, *tail;
-	unsigned int data_size;
-	unsigned int size;
+	int data_size;
+	int size;
 };
 
 typedef struct {
@@ -26,7 +24,7 @@ typedef struct {
 typedef struct {
 	uint64_t start_address;
 	size_t size;
-	uint8_t perm;
+	char perm;
 	void *rw_buffer;
 } miniblock_t;
 
@@ -42,8 +40,9 @@ void alloc_block(arena_t *arena, const uint64_t address, const uint64_t size);
 void free_block(arena_t *arena, const uint64_t address);
 
 void read(arena_t *arena, uint64_t address, uint64_t size);
-void write(arena_t *arena, const uint64_t address,  const uint64_t size, int8_t *data);
+void write(arena_t *arena, const uint64_t address, const uint64_t size,
+		   int8_t *data);
 void pmap(const arena_t *arena);
-void mprotect(arena_t *arena, uint64_t address, int8_t *permission);
+void mprotect(arena_t *arena, uint64_t address, char *permission);
 
 void merge_lists_at_index(arena_t *arena, int dest, int src);

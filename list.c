@@ -1,12 +1,11 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "vma.h"
 #include "list.h"
 
-list_t*
-dll_create(unsigned int data_size)
+list_t *dll_create(int64_t data_size)
 {
 	list_t *list = malloc(sizeof(list_t));
 
@@ -18,8 +17,7 @@ dll_create(unsigned int data_size)
 	return list;
 }
 
-node_t*
-dll_get_nth_node(list_t *list, int n)
+node_t *dll_get_nth_node(list_t *list, int64_t n)
 {
 	node_t *p = list->head;
 
@@ -34,19 +32,17 @@ dll_get_nth_node(list_t *list, int n)
 
 	for (int i = 0; i < n; i++)
 		p = p->next;
-	
+
 	return p;
 }
 
-void
-dll_add_nth_node(list_t *list, unsigned int n, void *new_data)
+void dll_add_nth_node(list_t *list, int64_t n, void *new_data)
 {
 	node_t *current_node, *new_node;
 
-	if (!list || !new_data) {
+	if (!list || !new_data)
 		return;
-	}
-	
+
 	new_node = malloc(sizeof(node_t));
 	new_node->data = malloc(list->data_size);
 	memcpy(new_node->data, new_data, list->data_size);
@@ -57,7 +53,7 @@ dll_add_nth_node(list_t *list, unsigned int n, void *new_data)
 	current_node = dll_get_nth_node(list, n);
 
 	// Insert the new node before the current node
-	if (current_node == NULL) {
+	if (!current_node) {
 		// The new node will be the new tail of the list
 		new_node->prev = list->tail;
 		new_node->next = NULL;
@@ -72,49 +68,42 @@ dll_add_nth_node(list_t *list, unsigned int n, void *new_data)
 		// The new node will be inserted between two existing nodes
 		new_node->prev = current_node->prev;
 		new_node->next = current_node;
-		if (current_node->prev) {
+		if (current_node->prev)
 			current_node->prev->next = new_node;
-		} else {
+		else
 			list->head = new_node;
-		}
 		current_node->prev = new_node;
 	}
 
 	list->size++;
 }
 
-node_t*
-dll_remove_nth_node(list_t *list, unsigned int n, void (*f)(void *))
+void dll_remove_nth_node(list_t *list, int64_t n, void (*f)(void *))
 {
-	node_t* node_to_remove;
+	node_t *node_to_remove;
 
-	if (!list->head) {
-		return NULL;
-	}
-	if (n >= list->size) {
+	if (!list->head)
+		return;
+
+	if (n >= list->size)
 		n = list->size - 1;
-	}
 
 	node_to_remove = dll_get_nth_node(list, n);
 
 	if (n == 0) {
 		// Remove the first node
 		list->head = list->head->next;
-		if (list->head != NULL) {
+		if (list->head)
 			list->head->prev = NULL;
-		}
-		if (node_to_remove == list->tail) {
+		if (node_to_remove == list->tail)
 			list->tail = NULL;
-		}
 	} else if (n == list->size - 1) {
 		// Remove the last node
 		list->tail = list->tail->prev;
-		if (list->tail != NULL) {
+		if (list->tail)
 			list->tail->next = NULL;
-		}
-		if (node_to_remove == list->head) {
+		if (node_to_remove == list->head)
 			list->head = NULL;
-		}
 	} else {
 		// Remove a node in the middle of the list
 		node_to_remove->prev->next = node_to_remove->next;
@@ -122,30 +111,23 @@ dll_remove_nth_node(list_t *list, unsigned int n, void (*f)(void *))
 	}
 
 	list->size--;
-	if(list->size == 0)
+	if (list->size == 0)
 		list->head = NULL;
 	node_to_remove->prev = NULL;
 	node_to_remove->next = NULL;
 
-	if(f)
+	if (f)
 		f(node_to_remove);
-	//return node_to_remove;
 }
 
-unsigned int
-dll_get_size(list_t *list)
-{
-	return list->size;
-}
+int64_t dll_get_size(list_t *list) { return list->size; }
 
-void
-dll_free(list_t *list)
+void dll_free(list_t *list)
 {
 	node_t *current_node, *next_node;
 
-	if (list == NULL) {
+	if (!list)
 		return;
-	}
 
 	current_node = list->head;
 	while (current_node) {
@@ -159,28 +141,26 @@ dll_free(list_t *list)
 	list = NULL;
 }
 
-void
-dll_print_int_list(list_t* list)
+void dll_print_int_list(list_t *list)
 {
-	if(!list || !list->head)
+	if (!list || !list->head)
 		return;
 
-	node_t* current_node = list->head;
-	while (current_node != NULL) {
+	node_t *current_node = list->head;
+	while (current_node) {
 		printf("%d ", *(int *)current_node->data);
 		current_node = current_node->next;
 	}
 	printf("\n");
 }
 
-void
-dll_print_string_list(list_t* list)
+void dll_print_string_list(list_t *list)
 {
-	 if(!list)
+	if (!list)
 		return;
 
-	node_t* current_node = list->head->prev;
-	while (current_node != NULL) {
+	node_t *current_node = list->head->prev;
+	while (current_node) {
 		printf("%s ", (char *)current_node->data);
 		current_node = current_node->prev;
 	}
