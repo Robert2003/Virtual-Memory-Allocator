@@ -1,3 +1,4 @@
+// Copyright Damian Mihai-Robert 312CAb 2022-2023
 #pragma once
 #include <inttypes.h>
 #include <stddef.h>

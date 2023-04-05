@@ -1,3 +1,4 @@
+// Copyright Damian Mihai-Robert 312CAb 2022-2023
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,13 +6,14 @@
 #include "vma.h"
 #include "list.h"
 
+#define MAX_SIZE 100
+
 int main(void)
 {
-	char command[100];
-	uint64_t address, size;
 	arena_t *arena = NULL;
+	uint64_t address, size;
 	int8_t *data = NULL, ch;
-	char perm[100];
+	char command[MAX_SIZE], perm[MAX_SIZE];
 
 	scanf("%s", command);
 
@@ -26,6 +28,7 @@ int main(void)
 			scanf("%ld %ld", &address, &size);
 			scanf("%c", &ch);
 			data = malloc((size + 1) * sizeof(char));
+			DIE(!data, "Data malloc failed\n");
 			fread(data, size, sizeof(char), stdin);
 			write(arena, address, size, data);
 			free(data);
@@ -40,13 +43,14 @@ int main(void)
 			free_block(arena, address);
 		} else if (!strcmp(command, "MPROTECT")) {
 			scanf("%ld", &address);
-			fgets(perm, 100, stdin);
+			fgets(perm, MAX_SIZE, stdin);
 			mprotect(arena, address, perm);
 		} else {
 			printf("Invalid command. Please try again.\n");
 		}
 		scanf("%s", command);
 	}
+
 	dealloc_arena(arena);
 	return 0;
 }

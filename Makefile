@@ -1,3 +1,5 @@
+# Copyright Damian Mihai-Robert 312CAb 2022-2023
+
 CC=gcc
 CFLAGS=-g -Wall -Wextra -std=c99
 
@@ -12,9 +14,9 @@ build: $(OBJS)
 	$(CC) $(CFLAGS) -o vma $(OBJS)
 
 pack:
-	zip -FSr 312CA_DamianMihai_Robert_SD.zip README README.md Makefile *.c *.h
+	zip -FSr 312CA_DamianMihai-Robert_SD.zip README Makefile *.c *.h
 
 clean:
 	rm -f $(TARGETS) $(OBJS)
 
-.PHONY: pack clean
+.PHONY: pack clean	

@@ -1,3 +1,4 @@
+// Copyright Damian Mihai-Robert 312CAb 2022-2023
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +9,7 @@
 list_t *dll_create(int64_t data_size)
 {
 	list_t *list = malloc(sizeof(list_t));
+	DIE(!list, "List malloc failed\n");
 
 	list->head = NULL;
 	list->tail = NULL;
@@ -17,7 +19,7 @@ list_t *dll_create(int64_t data_size)
 	return list;
 }
 
-node_t *dll_get_nth_node(list_t *list, int64_t n)
+node_t *dll_get_node(list_t *list, int64_t n)
 {
 	node_t *p = list->head;
 
@@ -36,7 +38,7 @@ node_t *dll_get_nth_node(list_t *list, int64_t n)
 	return p;
 }
 
-void dll_add_nth_node(list_t *list, int64_t n, void *new_data)
+void dll_add_node(list_t *list, int64_t n, void *new_data)
 {
 	node_t *current_node, *new_node;
 
@@ -44,13 +46,15 @@ void dll_add_nth_node(list_t *list, int64_t n, void *new_data)
 		return;
 
 	new_node = malloc(sizeof(node_t));
+	DIE(!new_node, "Node malloc failed\n");
 	new_node->data = malloc(list->data_size);
+	DIE(!new_node->data, "Data malloc failed\n");
 	memcpy(new_node->data, new_data, list->data_size);
 
 	free(new_data);
 	new_data = NULL;
 
-	current_node = dll_get_nth_node(list, n);
+	current_node = dll_get_node(list, n);
 
 	// Insert the new node before the current node
 	if (!current_node) {
@@ -78,7 +82,7 @@ void dll_add_nth_node(list_t *list, int64_t n, void *new_data)
 	list->size++;
 }
 
-void dll_remove_nth_node(list_t *list, int64_t n, void (*f)(void *))
+void dll_remove_node(list_t *list, int64_t n, void (*f)(void *))
 {
 	node_t *node_to_remove;
 
@@ -88,24 +92,24 @@ void dll_remove_nth_node(list_t *list, int64_t n, void (*f)(void *))
 	if (n >= list->size)
 		n = list->size - 1;
 
-	node_to_remove = dll_get_nth_node(list, n);
+	node_to_remove = dll_get_node(list, n);
 
 	if (n == 0) {
-		// Remove the first node
+		// Sterge primul nod
 		list->head = list->head->next;
 		if (list->head)
 			list->head->prev = NULL;
 		if (node_to_remove == list->tail)
 			list->tail = NULL;
 	} else if (n == list->size - 1) {
-		// Remove the last node
+		// Sterge ultimul nod
 		list->tail = list->tail->prev;
 		if (list->tail)
 			list->tail->next = NULL;
 		if (node_to_remove == list->head)
 			list->head = NULL;
 	} else {
-		// Remove a node in the middle of the list
+		// Sterge un nod in mijlocul listei
 		node_to_remove->prev->next = node_to_remove->next;
 		node_to_remove->next->prev = node_to_remove->prev;
 	}
