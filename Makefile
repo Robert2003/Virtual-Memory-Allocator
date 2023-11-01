@@ -3,7 +3,7 @@
 CC=gcc
 CFLAGS=-g -Wall -Wextra -std=c99
 
-SRCS=$(wildcard *.c)
+SRCS=$(wildcard src/VMA/*.c) $(wildcard src/helpers/*.c)
 OBJS=$(SRCS:%.c=%.o)
 TARGETS=$(OBJS:%.o=%)
 
@@ -14,9 +14,9 @@ build: $(OBJS)
 	$(CC) $(CFLAGS) -o vma $(OBJS)
 
 pack:
-	zip -FSr 312CA_DamianMihai-Robert_SD.zip README Makefile *.c *.h
+	zip -FSr 312CA_DamianMihai-Robert_SD.zip README Makefile src/helpers/*.c src/helpers/*.h src/VMA/*.c src/VMA/*.h
 
 clean:
 	rm -f $(TARGETS) $(OBJS)
 
-.PHONY: pack clean	
+.PHONY: pack clean
