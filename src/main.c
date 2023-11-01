@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "vma.h"
+#include "VMA/vma.h"
 
 #define MAX_SIZE 100
 

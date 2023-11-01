@@ -15,9 +15,6 @@
 		}							\
 	} while (0)
 
-#include "../VMA/vma.h"
-
-
 typedef struct node_t node_t;
 struct node_t {
 	void *data;
@@ -30,6 +27,8 @@ struct list_t {
 	int data_size;
 	int size;
 };
+
+#include "../VMA/vma.h"
 
 list_t *dll_create(int64_t data_size);
 

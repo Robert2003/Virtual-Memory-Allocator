@@ -3,7 +3,7 @@
 CC=gcc
 CFLAGS=-g -Wall -Wextra -std=c99
 
-SRCS=$(wildcard src/VMA/*.c) $(wildcard src/helpers/*.c)
+SRCS=$(wildcard src/VMA/*.c) $(wildcard src/helpers/*.c) $(wildcard src/*.c)
 OBJS=$(SRCS:%.c=%.o)
 TARGETS=$(OBJS:%.o=%)
 
